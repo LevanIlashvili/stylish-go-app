@@ -1,1 +1,2 @@
-export * from './WalletScreen'; 
+export * from './onboarding';
+export * from './game'; 
