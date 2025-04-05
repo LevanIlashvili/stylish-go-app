@@ -9,8 +9,6 @@ import {
   Easing
 } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { useWallet } from '../../providers';
-import { deleteWallet } from '../../utils/storage';
 import { colors } from '../../config';
 import { fonts } from '../../utils/fonts';
 
@@ -38,7 +36,6 @@ type GameMenuProps = {
 };
 
 export function GameMenu({ navigation }: GameMenuProps) {
-  const { wallet, setWallet } = useWallet();
   const [stones, setStones] = useState<AnimatedStone[]>([]);
 
   useEffect(() => {
@@ -116,17 +113,12 @@ export function GameMenu({ navigation }: GameMenuProps) {
     return () => clearInterval(interval);
   }, [stones]);
 
-  const handleLogout = async () => {
-    try {
-      await deleteWallet(); 
-      setWallet(null); 
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  };
-
   const navigateToLeaderboard = () => {
     navigation.navigate('Leaderboard');
+  };
+
+  const navigateToWallet = () => {
+    navigation.navigate('Wallet');
   };
 
   return (
@@ -184,14 +176,14 @@ export function GameMenu({ navigation }: GameMenuProps) {
         
         <View style={styles.buttonsContainer}>
           <TouchableOpacity 
-            style={styles.button} 
+            style={[styles.button, styles.playButton]} 
             activeOpacity={0.7}
           >
             <Text style={styles.buttonText}>Play</Text>
           </TouchableOpacity>
           
           <TouchableOpacity 
-            style={styles.button} 
+            style={[styles.button, styles.leaderboardButton]} 
             activeOpacity={0.7}
             onPress={navigateToLeaderboard}
           >
@@ -199,8 +191,9 @@ export function GameMenu({ navigation }: GameMenuProps) {
           </TouchableOpacity>
           
           <TouchableOpacity 
-            style={styles.button} 
+            style={[styles.button, styles.walletButton]} 
             activeOpacity={0.7}
+            onPress={navigateToWallet}
           >
             <Text style={styles.buttonText}>Wallet</Text>
           </TouchableOpacity>
@@ -233,11 +226,6 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 15,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-    elevation: 5,
   },
   contentContainer: {
     flex: 1,
@@ -256,9 +244,6 @@ const styles = StyleSheet.create({
     fontSize: 86,
     fontFamily: fonts.brush,
     color: colors.primary,
-    textShadowColor: colors.secondary,
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 15,
     textAlign: 'center',
     width: '100%',
     paddingHorizontal: 30,
@@ -280,6 +265,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  playButton: {},
+  leaderboardButton: {},
+  walletButton: {},
   buttonText: {
     color: colors.white,
     fontSize: 26,

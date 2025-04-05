@@ -19,4 +19,9 @@ export class ApiClient {
     
     return mockData;
   }
+
+  async getBalance(address: string): Promise<number> {
+    await new Promise(resolve => setTimeout(resolve, 800));
+    return 10.2;
+  }
 } 

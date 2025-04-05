@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import { WalletProvider, useWallet } from './providers';
 import { OnboardingNavigator, GameNavigator } from './navigation';
 import { colors } from './config';
 import { loadFonts } from './utils/fonts';
+import { toastConfig } from './config/toast';
 
 function AppContent() {
   const { wallet, isWalletLoaded } = useWallet();
-
-  useEffect(() => {
-    console.log('==== APP STATE UPDATE ====');
-    console.log('Wallet loaded state:', isWalletLoaded);
-    console.log('Wallet exists:', !!wallet);
-    if (wallet) {
-      console.log('Wallet address:', wallet.address);
-      console.log('Should render GameNavigator');
-    } else {
-      console.log('No wallet, should render OnboardingNavigator');
-    }
-    console.log('=========================');
-  }, [isWalletLoaded, wallet]);
 
   if (!isWalletLoaded) {
     return (
@@ -67,6 +56,7 @@ export default function App() {
       <WalletProvider>
         <AppContent />
       </WalletProvider>
+      <Toast config={toastConfig} />
     </SafeAreaView>
   );
 }
