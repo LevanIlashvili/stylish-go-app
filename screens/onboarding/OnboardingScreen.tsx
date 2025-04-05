@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     maxWidth: width * 0.8,
     lineHeight: 22,
+    fontFamily: fonts.orbitron.regular,
   },
   buttonContainer: {
     alignItems: 'center',
@@ -160,6 +161,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     letterSpacing: 1,
+    fontFamily: fonts.orbitron.black,
   },
   buttonGlow: {
     position: 'absolute',
@@ -200,6 +202,7 @@ const styles = StyleSheet.create({
     color: colors.text.secondary,
     fontSize: 14,
     opacity: 0.7,
+    fontFamily: fonts.orbitron.regular,
   },
   loader: {
     marginLeft: 10,
