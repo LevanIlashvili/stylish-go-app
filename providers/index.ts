@@ -1,1 +1,2 @@
-export * from './WalletProvider'; 
+export * from './WalletProvider';
+export * from './GameProvider'; 

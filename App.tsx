@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
-import { WalletProvider, useWallet } from './providers';
+import { WalletProvider, useWallet, GameProvider } from './providers';
 import { OnboardingNavigator, GameNavigator } from './navigation';
 import { colors } from './config';
 import { loadFonts } from './utils/fonts';
@@ -54,7 +54,9 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <WalletProvider>
-        <AppContent />
+        <GameProvider>
+          <AppContent />
+        </GameProvider>
       </WalletProvider>
       <Toast config={toastConfig} />
     </SafeAreaView>

@@ -74,8 +74,9 @@ export function GoBoard({ size, boardState, onIntersectionPress }: GoBoardProps)
       
       {boardState.map((row, rowIndex) => 
         row.map((cell, colIndex) => {
-          const isPlayer1 = cell === 0;
+          const isPlayer1 = cell === 2;
           const isPlayer2 = cell === 1;
+          
           const stoneBaseStyle = isPlayer1 ? styles.player1Stone : styles.player2Stone;
           const gradientColors = isPlayer1
             ? [colors.primary, '#A0054D'] as const
@@ -94,7 +95,7 @@ export function GoBoard({ size, boardState, onIntersectionPress }: GoBoardProps)
                 },
               ]}
               onPress={() => onIntersectionPress(rowIndex, colIndex)}
-              hitSlop={10} 
+              hitSlop={10}
             >
               {(isPlayer1 || isPlayer2) && (
                 <View style={[styles.stoneContainer, { width: stoneSize, height: stoneSize }]}>
@@ -105,7 +106,7 @@ export function GoBoard({ size, boardState, onIntersectionPress }: GoBoardProps)
                       stoneBaseStyle,
                       { borderRadius: stoneSize / 2 }
                     ]}
-                    start={{ x: 0.3, y: 0.1 }} 
+                    start={{ x: 0.3, y: 0.1 }}
                     end={{ x: 0.7, y: 0.9 }}
                   />
                 </View>
@@ -160,4 +161,4 @@ const styles = StyleSheet.create({
   player2Stone: { 
     shadowColor: colors.secondary, 
   },
-}); 
+});

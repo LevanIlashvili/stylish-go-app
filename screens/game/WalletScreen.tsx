@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   Modal,
   Pressable,
+  Linking,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -21,6 +22,8 @@ import { deleteWallet } from '../../utils/storage';
 type WalletScreenProps = {
   navigation: NativeStackNavigationProp<any>;
 };
+
+const FAUCET_URL = "https://faucet.ethbucharest.superposition.so/";
 
 export function WalletScreen({ navigation }: WalletScreenProps) {
   const { wallet, setWallet } = useWallet();
@@ -103,6 +106,10 @@ export function WalletScreen({ navigation }: WalletScreenProps) {
 
   const formatAddress = (address: string) => {
     return `${address.substring(0, 6)}...${address.substring(address.length - 4)}`;
+  };
+
+  const openFaucet = async () => {
+    await Linking.openURL(FAUCET_URL);
   };
 
   const renderMnemonicModal = () => (
@@ -237,15 +244,7 @@ export function WalletScreen({ navigation }: WalletScreenProps) {
             
             <TouchableOpacity 
               style={styles.fillButton}
-              onPress={() => {
-                Toast.show({
-                  type: 'info',
-                  text1: 'Fill Up Requested',
-                  text2: 'Please wait for the faucet',
-                  position: 'bottom',
-                  visibilityTime: 3000,
-                });
-              }}
+              onPress={openFaucet}
             >
               <Text style={styles.fillButtonText}>Fill Up</Text>
             </TouchableOpacity>
