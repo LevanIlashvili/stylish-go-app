@@ -8,6 +8,7 @@ import {
   Animated,
   Easing
 } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useWallet } from '../../providers';
 import { deleteWallet } from '../../utils/storage';
 import { colors } from '../../config';
@@ -32,7 +33,11 @@ type AnimatedStone = {
   animating: boolean;
 };
 
-export function GameMenu() {
+type GameMenuProps = {
+  navigation: NativeStackNavigationProp<any>;
+};
+
+export function GameMenu({ navigation }: GameMenuProps) {
   const { wallet, setWallet } = useWallet();
   const [stones, setStones] = useState<AnimatedStone[]>([]);
 
@@ -120,6 +125,10 @@ export function GameMenu() {
     }
   };
 
+  const navigateToLeaderboard = () => {
+    navigation.navigate('Leaderboard');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.boardContainer}>
@@ -184,6 +193,7 @@ export function GameMenu() {
           <TouchableOpacity 
             style={styles.button} 
             activeOpacity={0.7}
+            onPress={navigateToLeaderboard}
           >
             <Text style={styles.buttonText}>Leaderboard</Text>
           </TouchableOpacity>

@@ -1,1 +1,2 @@
-export * from './GameMenu'; 
+export * from './GameMenu';
+export * from './LeaderboardScreen'; 
