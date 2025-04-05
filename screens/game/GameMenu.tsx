@@ -121,6 +121,10 @@ export function GameMenu({ navigation }: GameMenuProps) {
     navigation.navigate('Wallet');
   };
 
+  const navigateToBoard = () => {
+    navigation.navigate('Board');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.boardContainer}>
@@ -178,6 +182,7 @@ export function GameMenu({ navigation }: GameMenuProps) {
           <TouchableOpacity 
             style={[styles.button, styles.playButton]} 
             activeOpacity={0.7}
+            onPress={navigateToBoard}
           >
             <Text style={styles.buttonText}>Play</Text>
           </TouchableOpacity>
