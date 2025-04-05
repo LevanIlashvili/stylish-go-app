@@ -29,6 +29,18 @@
         "asset": "./assets/fonts/Amnesty-Script.ttf",
         "family": "AmnestyScript"
       }
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "1ec8bc37-3398-4734-a694-17b870ef2ba1"
+      }
+    },
+    "owner": "blockcraft",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/1ec8bc37-3398-4734-a694-17b870ef2ba1"
+    }
   }
 }
