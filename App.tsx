@@ -1,15 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { WalletProvider, useWallet } from './providers';
 import { OnboardingNavigator, GameNavigator } from './navigation';
+import { colors } from './config';
+import { loadFonts } from './utils/fonts';
 
 function AppContent() {
   const { wallet, isWalletLoaded } = useWallet();
 
   useEffect(() => {
-    console.log('Wallet loaded:', isWalletLoaded);
+    console.log('==== APP STATE UPDATE ====');
+    console.log('Wallet loaded state:', isWalletLoaded);
     console.log('Wallet exists:', !!wallet);
+    if (wallet) {
+      console.log('Wallet address:', wallet.address);
+      console.log('Should render GameNavigator');
+    } else {
+      console.log('No wallet, should render OnboardingNavigator');
+    }
+    console.log('=========================');
   }, [isWalletLoaded, wallet]);
 
   if (!isWalletLoaded) {
@@ -28,6 +38,30 @@ function AppContent() {
 }
 
 export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    async function prepare() {
+      try {
+        await loadFonts();
+        setFontsLoaded(true);
+      } catch (e) {
+        console.warn('Error loading fonts:', e);
+        setFontsLoaded(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.loadingContainer}>
+        <Text style={styles.text}>Loading fonts...</Text>
+      </View>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <WalletProvider>
@@ -40,16 +74,16 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0f0f1a',
+    backgroundColor: colors.background,
   },
   loadingContainer: {
     flex: 1,
-    backgroundColor: '#0f0f1a',
+    backgroundColor: colors.background,
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    color: '#fff',
+    color: colors.white,
     fontSize: 18,
   }
 });

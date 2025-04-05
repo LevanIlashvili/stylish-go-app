@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { EthereumWallet } from '../utils/wallet';
-import { hasWallet } from '../utils/storage';
+import { hasWallet, getWallet } from '../utils/storage';
+import { Alert } from 'react-native';
 
 type WalletContextType = {
   wallet: EthereumWallet | null;
@@ -21,18 +22,32 @@ type WalletProviderProps = {
 };
 
 export function WalletProvider({ children }: WalletProviderProps) {
-  const [wallet, setWallet] = useState<EthereumWallet | null>(null);
+  const [wallet, setWalletState] = useState<EthereumWallet | null>(null);
   const [isWalletLoaded, setIsWalletLoaded] = useState(false);
+
+  const setWallet = (newWallet: EthereumWallet | null) => {
+    setWalletState(newWallet);
+  };
 
   useEffect(() => {
     async function checkWallet() {
       try {
         const exists = await hasWallet();
+
         if (exists) {
-          setIsWalletLoaded(true);
-        } else {
-          setIsWalletLoaded(true);
+          const storedWallet = await getWallet();
+          
+          if (storedWallet) {
+            try {
+              const walletData = JSON.parse(storedWallet.encryptedWallet) as EthereumWallet;
+              setWalletState(walletData);
+            } catch (e) {
+              console.error("Error parsing wallet data:", e);
+            }
+          }
         }
+        
+        setIsWalletLoaded(true);
       } catch (error) {
         console.error('Error checking wallet:', error);
         setIsWalletLoaded(true);
